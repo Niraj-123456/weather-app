@@ -34,14 +34,14 @@ function Main() {
                             !country ? <h4>{city}</h4> : <h4>{city}, {country.country}</h4>
                         }
                         {
-                            search ? <h3>{search.temp}</h3> : <h3>City Name Not Found</h3>
+                            search ? <h3>{search.temp} &deg;C</h3> : <h3>City Name Not Found</h3>
                         }
                         <MinMax>
                             {
                                 search ?
                                 <> 
-                                <p><i className="fas fa-temperature-high"></i> Min. Temp: {search.temp_min}</p>
-                                <p><i className="fas fa-temperature-low"></i> Max. Temp: {search.temp_max}</p>
+                                <p><i className="fas fa-temperature-low"></i> Min. Temp: {search.temp_min} &deg;C</p>
+                                <p><i className="fas fa-temperature-high"></i> Max. Temp: {search.temp_max} &deg;C</p>
                                 </>
                             :
                                 ''
@@ -106,7 +106,6 @@ const WeatherResult = styled.div`
     border: solid 1px #000;
     margin: 50px auto;
     border-radius: 4px;
-    box-sizing: border-box;
     box-shadow: -5px 2px 5px 3px rgba(0, 0, 0, 0.3);
     text-align: center;
     background-image: url('https://png.pngtree.com/thumb_back/fw800/back_our/20190625/ourmid/pngtree-blue-arc-weather-background-image_253195.jpg');
@@ -136,7 +135,7 @@ const MinMax = styled.div`
     margin-top: 50px;
 
     p {
-        padding: 0 10px;
+        padding: 0 20px;
         font-size: 20px;
         letter-spacing: 1px;
         font-weight: 600;
