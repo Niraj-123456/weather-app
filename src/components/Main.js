@@ -52,7 +52,7 @@ function Main() {
                                 weather ? weather.map((cloud, id) => {
                                     return (
                                     <>
-                                        <img src={cloud.icon} />
+                                        <i className="fas fa-cloud-sun-rain"></i>
                                         <p key={id}>{cloud.description}</p>
                                     </>
                                     )
@@ -152,6 +152,11 @@ const Cloud = styled.div`
     align-items: center;
     justify-content: center;
     margin-top: 100px;
+
+    i {
+        font-size: 30px;
+        margin: 0 10px;
+    }
 
     p {
         font-size: 20px;
