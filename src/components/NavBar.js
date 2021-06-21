@@ -5,7 +5,9 @@ function NavBar() {
     return (
         <Container>
             <Nav>
+                <i className="fas fa-cloud"></i>
                 <h4>Weather App</h4>
+                <i className="fas fa-cloud"></i>
             </Nav>
         </Container>
     )
@@ -30,5 +32,10 @@ const Nav = styled.div`
         text-transform: uppercase;
         font-size: 30px;
         letter-spacing: 1px;
+        margin: 0 15px;
+    }
+
+    i {
+        font-size: 30px;
     }
 `

@@ -6,17 +6,17 @@ function Main() {
     const [city, setCity] = useState('Kathmandu');
     const [search, setSearch] = useState('');
     const [country, setCountry] = useState('');
+    const [weather, setWeather] = useState('');
 
     useEffect(() => {
         const fetchApi = async () => {
             let url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=909f316fd27d1e1d18b99d8dbea246c6`
                 const response = await fetch(url);
-                const response2 = await fetch(url);
-                const town = await response.json();
-                const nation = await response2.json();
+                const result = await response.json();
                 // console.log(result);
-                setSearch(town.main);
-                setCountry(nation.sys)
+                setSearch(result.main);
+                setCountry(result.sys);
+                setWeather(result.weather) 
         }
         fetchApi();
     }, [city])
@@ -25,16 +25,43 @@ function Main() {
         <Container>
             <Wrapper>
                 <SearchInput>
-                    <input type="text" name="search" value={city} onChange={(e) => setCity(e.target.value)} />
+                    <label htmlFor="search">Enter Your City Name</label>
+                    <input type="text" name="search" id="search" value={city} onChange={(e) => setCity(e.target.value)} />
                 </SearchInput>
-                <WeatherResult> 
-                    {
-                        !country ? <p>{city}</p> : <p>{city}, {country.country}</p>
-                    }
-                    {
-                        search ? <p>{search.temp}</p> : 'City Name Not Found'
-                    }
-                    
+                <WeatherResult>
+                    <Content>
+                        {
+                            !country ? <h4>{city}</h4> : <h4>{city}, {country.country}</h4>
+                        }
+                        {
+                            search ? <h3>{search.temp}</h3> : <h3>City Name Not Found</h3>
+                        }
+                        <MinMax>
+                            {
+                                search ?
+                                <> 
+                                <p><i className="fas fa-temperature-high"></i> Min. Temp: {search.temp_min}</p>
+                                <p><i className="fas fa-temperature-low"></i> Max. Temp: {search.temp_max}</p>
+                                </>
+                            :
+                                ''
+                            }
+                        </MinMax>
+                        <Cloud>
+                            {
+                                weather ? weather.map((cloud, id) => {
+                                    return (
+                                    <>
+                                        <img src={cloud.icon} />
+                                        <p key={id}>{cloud.description}</p>
+                                    </>
+                                    )
+                                })
+                                : ''
+                            }
+
+                        </Cloud>
+                    </Content>   
                 </WeatherResult>
             </Wrapper>
         </Container>
@@ -56,7 +83,10 @@ const Wrapper = styled.div`
 `
 
 const SearchInput = styled.div`
-    width: 100%;
+    width: 80%;
+    margin: auto;
+    text-align: center;
+    font-size: 20px;
 
     input {
         height: 40px;
@@ -66,11 +96,67 @@ const SearchInput = styled.div`
         outline: none;
         padding: 0 10px;
         font-size: 15px;
+        margin: 10px auto;
     }
 `
 
 const WeatherResult = styled.div`
-    width: 80%;
-    margin: 50px auto;
+    width: 100%;
+    height: 600px;
     border: solid 1px #000;
+    margin: 50px auto;
+    border-radius: 4px;
+    box-sizing: border-box;
+    box-shadow: -5px 2px 5px 3px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    background-image: url('https://png.pngtree.com/thumb_back/fw800/back_our/20190625/ourmid/pngtree-blue-arc-weather-background-image_253195.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100% 100%;
+`
+
+const Content = styled.div`
+    width: 100%;
+    margin: 100px auto;
+
+    h4 {
+        font-size: 30px;
+    }
+
+    h3 {
+        font-size: 40px;
+        margin-top: 50px;
+    }
+`
+
+const MinMax = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 50px;
+
+    p {
+        padding: 0 10px;
+        font-size: 20px;
+        letter-spacing: 1px;
+        font-weight: 600;
+
+        i {
+            font-size: 30px;
+        }   
+    }
+`
+
+const Cloud = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 100px;
+
+    p {
+        font-size: 20px;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+
 `
