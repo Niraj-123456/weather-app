@@ -3,6 +3,9 @@ import styled from 'styled-components'
 
 function Main() {
 
+    const date = new Date().toLocaleDateString();
+    const time = new Date().toLocaleTimeString();
+
     const [city, setCity] = useState('Kathmandu');
     const [search, setSearch] = useState('');
     const [country, setCountry] = useState('');
@@ -33,6 +36,9 @@ function Main() {
                         {
                             !country ? <h4>{city}</h4> : <h4>{city}, {country.country}</h4>
                         }
+
+                        <h5>{date}, {time}</h5>
+
                         {
                             search ? <h3>{search.temp} &deg;C</h3> : <h3>City Name Not Found</h3>
                         }
@@ -71,14 +77,11 @@ function Main() {
 export default Main
 
 const Container = styled.div`
-    width: 100%;
-    height: calc(100vh - 70px);
-    margin: 100px auto;
-
 `
 
 const Wrapper = styled.div`
     width: 50%;
+    height: 100%;
     margin: auto;
 `
 
@@ -102,7 +105,7 @@ const SearchInput = styled.div`
 
 const WeatherResult = styled.div`
     width: 100%;
-    height: 600px;
+    height: auto;
     border: solid 1px #000;
     margin: 50px auto;
     border-radius: 4px;
@@ -116,6 +119,7 @@ const WeatherResult = styled.div`
 
 const Content = styled.div`
     width: 100%;
+    height: auto;
     margin: 100px auto;
 
     h4 {
