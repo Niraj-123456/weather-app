@@ -2,7 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 
 function Main(props) {
-
     return (
         <Container>
             <Wrapper>
@@ -17,7 +16,12 @@ function Main(props) {
                     <Content>
                         <Temp>
                             {
-                                !props.country ? <h1>{props.city}</h1> : <h1>{props.city}, {props.country.country}</h1>
+                                !props.country ? <h1>{props.city}</h1> 
+                                : 
+                                <City>
+                                <i class="fas fa-map-marker-alt"></i>
+                                <h1>{props.city}, {props.country.country}</h1>
+                                </City>
                             }
 
                             <h4>{new Date().toLocaleString('en-US', {timeZone: 'Asia/Kathmandu', dateStyle: 'full', timeStyle: 'short'})}</h4>
@@ -37,6 +41,17 @@ function Main(props) {
                                 ''
                             }
                         </MinMax>
+                        <SunRiseSet>
+                                {
+                                    props.country ? 
+                                    <>
+                                    <p>Sunrise: {new Date(props.country.sunrise).toLocaleString('en-US', {timeStyle: 'short'})}</p>
+                                    <p>Sunset: {new Date(props.country.sunset).toLocaleString('en-US', {timeStyle: 'short'})}</p>
+                                    </>
+                                    :
+                                    ''
+                                }
+                        </SunRiseSet>
                         <Cloud>
                             {
                                 props.weather ? props.weather.map((cloud, id) => {
@@ -98,12 +113,12 @@ const WeatherResult = styled.div`
 `
 
 const Background = styled.div`
-    height: 600px;
+    height: 700px;
     background-image: url('https://st4.depositphotos.com/11221732/27367/i/450/depositphotos_273671996-stock-photo-blue-day-clear-sky-light.jpg');
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
-    box-shadow: -5px 2px 5px 3px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 1px 5px 2px rgba(255, 255, 255, 0.5);
     position: relative;
 `
 
@@ -139,6 +154,17 @@ const Temp = styled.div`
     }
 `
 
+const City = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    i{
+        font-size: 50px;
+        margin-right: 20px;
+    }
+`
+
 const MinMax = styled.div`
     display: flex;
     align-items: center;
@@ -157,8 +183,21 @@ const MinMax = styled.div`
     }
 `
 
+const SunRiseSet = styled.div`
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px auto;
+
+    p {
+        margin: 0 10px;
+        font-size: 18px;
+    }
+`
+
 const Cloud = styled.div`
-    margin-top: 30px;
+    margin: 30px auto;
     width: 100%;
 
     i {
