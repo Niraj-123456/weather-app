@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import styled from 'styled-components'
 import Main from './Main'
+import MoreInfo from './MoreInfo';
 
 function Home() {
 
@@ -18,6 +19,7 @@ function Home() {
             let url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=909f316fd27d1e1d18b99d8dbea246c6`
                 const response = await fetch(url);
                 const result = await response.json();
+                console.log(result);
                 setSearch(result.main);
                 setCountry(result.sys);
                 setWeather(result.weather)
@@ -28,6 +30,7 @@ function Home() {
     return (
         <Container>
             <Main onChange={onInputChange} search={search} city={city} country={country} weather={weather}/>
+            <MoreInfo />
         </Container>
     )
 }

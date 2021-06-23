@@ -52,7 +52,7 @@ function Main(props) {
                             }
 
                         </Cloud>
-                    </Content>   
+                    </Content> 
                 </WeatherResult>
             </Wrapper>
         </Container>
