@@ -45,8 +45,8 @@ function Main(props) {
                                 {
                                     props.country ? 
                                     <>
-                                    <p>Sunrise: {new Date(props.country.sunrise).toLocaleString('en-US', {timeStyle: 'short'})}</p>
-                                    <p>Sunset: {new Date(props.country.sunset).toLocaleString('en-US', {timeStyle: 'short'})}</p>
+                                    <p><i class="fas fa-cloud-sun"></i> Sunrise: {new Date(props.country.sunrise).toLocaleString('en-US', {timeStyle: 'short'})}</p>
+                                    <p><i class="fas fa-cloud-sun"></i> Sunset: {new Date(props.country.sunset).toLocaleString('en-US', {timeStyle: 'short'})}</p>
                                     </>
                                     :
                                     ''
