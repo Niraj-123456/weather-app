@@ -1,35 +1,14 @@
-import React, {useState, useEffect} from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
-function Main() {
-
-    // const date = new Date().toLocaleDateString();
-    // const time = new Date().toLocaleTimeString();
-    
-
-    const [city, setCity] = useState('Kathmandu');
-    const [search, setSearch] = useState('');
-    const [country, setCountry] = useState('');
-    const [weather, setWeather] = useState('');
-
-    useEffect(() => {
-        const fetchApi = async () => {
-            let url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=909f316fd27d1e1d18b99d8dbea246c6`
-                const response = await fetch(url);
-                const result = await response.json();
-                setSearch(result.main);
-                setCountry(result.sys);
-                setWeather(result.weather)
-        }
-        fetchApi();
-    }, [city])
+function Main(props) {
 
     return (
         <Container>
             <Wrapper>
                 <SearchInput>
                     <label htmlFor="search">Enter Your City Name</label>
-                    <input type="text" name="search" id="search" value={city} onChange={(e) => setCity(e.target.value)} />
+                    <input type="text" name="search" id="search" value={props.city} onChange={props.onChange} />
                 </SearchInput>
                 <WeatherResult>
                     <Background>
@@ -38,21 +17,21 @@ function Main() {
                     <Content>
                         <Temp>
                             {
-                                !country ? <h1>{city}</h1> : <h1>{city}, {country.country}</h1>
+                                !props.country ? <h1>{props.city}</h1> : <h1>{props.city}, {props.country.country}</h1>
                             }
 
                             <h4>{new Date().toLocaleString('en-US', {timeZone: 'Asia/Kathmandu', dateStyle: 'full', timeStyle: 'short'})}</h4>
 
                             {
-                                search ? <h2>{search.temp} &deg;C</h2> : <h2>City Name Not Found</h2>
+                                props.search ? <h2>{props.search.temp} &deg;C</h2> : <h2>City Name Not Found</h2>
                             }
                         </Temp>
                         <MinMax>
                             {
-                                search ?
+                                props.search ?
                                 <> 
-                                <p><i className="fas fa-temperature-low"></i> Min. Temp: {search.temp_min} &deg;C</p>
-                                <p><i className="fas fa-temperature-high"></i> Max. Temp: {search.temp_max} &deg;C</p>
+                                <p><i className="fas fa-temperature-low"></i> Min. Temp: {props.search.temp_min} &deg;C</p>
+                                <p><i className="fas fa-temperature-high"></i> Max. Temp: {props.search.temp_max} &deg;C</p>
                                 </>
                             :
                                 ''
@@ -60,10 +39,11 @@ function Main() {
                         </MinMax>
                         <Cloud>
                             {
-                                weather ? weather.map((cloud, id) => {
+                                props.weather ? props.weather.map((cloud, id) => {
+                                    const icon = `http://openweathermap.org/img/w/${cloud.icon}.png`
                                     return (
                                     <CloudContent key={cloud.id}>
-                                        <i className="fas fa-cloud-sun-rain"></i>
+                                        <img src={icon} alt="weather-icon" />
                                         <p>{cloud.description}</p>
                                     </CloudContent>
                                     )
@@ -111,7 +91,7 @@ const SearchInput = styled.div`
 `
 
 const WeatherResult = styled.div`
-    width: 90%;
+    width: 100%;
     height: auto;
     margin: 50px auto;
     text-align: center;  
@@ -138,6 +118,7 @@ const Content = styled.div`
 
 const Temp = styled.div`
     margin-top: 50px;
+    width: 100%;
     
 
     h1 {
@@ -162,6 +143,7 @@ const MinMax = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 100%;
 
     p {
         padding: 0 20px;
