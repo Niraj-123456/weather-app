@@ -19,13 +19,17 @@ function Main(props) {
           <Background></Background>
           <Content>
             <Temp>
-              {!props.country ? (
-                <h1>{props.city}</h1>
+              {!props.searchResult?.country ? (
+                !props.loading ? (
+                  <h1>{props.city}</h1>
+                ) : (
+                  <h1>Loading...</h1>
+                )
               ) : (
                 <City>
-                  <i class="fas fa-map-marker-alt"></i>
+                  <i className="fas fa-map-marker-alt"></i>
                   <h1>
-                    {props.city}, {props.country.country}
+                    {props.city}, {props.searchResult?.country?.country}
                   </h1>
                 </City>
               )}
@@ -38,22 +42,22 @@ function Main(props) {
                 })}
               </h4>
 
-              {props.search ? (
-                <h2>{props.search.temp} &deg;C</h2>
+              {props.searchResult?.main ? (
+                <h2>{props.searchResult?.main?.temp} &deg;C</h2>
               ) : (
                 <h2>City Name Not Found</h2>
               )}
             </Temp>
             <MinMax>
-              {props.search ? (
+              {props.searchResult?.main ? (
                 <>
                   <p>
                     <i className="fas fa-temperature-low"></i> Min. Temp:{" "}
-                    {props.search.temp_min} &deg;C
+                    {props.searchResult?.main?.temp_min} &deg;C
                   </p>
                   <p>
                     <i className="fas fa-temperature-high"></i> Max. Temp:{" "}
-                    {props.search.temp_max} &deg;C
+                    {props.searchResult?.main?.temp_max} &deg;C
                   </p>
                 </>
               ) : (
@@ -64,14 +68,18 @@ function Main(props) {
               {props.country ? (
                 <>
                   <p>
-                    <i class="fas fa-cloud-sun"></i> Sunrise:{" "}
-                    {new Date(props.country.sunrise).toLocaleString("en-US", {
+                    <i className="fas fa-cloud-sun"></i> Sunrise:{" "}
+                    {new Date(
+                      props.searchResult?.country?.sunrise
+                    ).toLocaleString("en-US", {
                       timeStyle: "short",
                     })}
                   </p>
                   <p>
-                    <i class="fas fa-cloud-sun"></i> Sunset:{" "}
-                    {new Date(props.country.sunset).toLocaleString("en-US", {
+                    <i className="fas fa-cloud-sun"></i> Sunset:{" "}
+                    {new Date(
+                      props.searchResult?.country?.sunset
+                    ).toLocaleString("en-US", {
                       timeStyle: "short",
                     })}
                   </p>
@@ -81,8 +89,8 @@ function Main(props) {
               )}
             </SunRiseSet>
             <Cloud>
-              {props.weather
-                ? props.weather.map((cloud, id) => {
+              {props.searchResult?.weather
+                ? props.searchResult?.weather?.map((cloud) => {
                     const icon = `http://openweathermap.org/img/w/${cloud.icon}.png`;
                     return (
                       <CloudContent key={cloud.id}>

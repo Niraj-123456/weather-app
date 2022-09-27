@@ -1,16 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useTransition } from "react";
 import styled from "styled-components";
 import Main from "./Main";
 import MoreInfo from "./MoreInfo";
 
 function Home() {
+  const [isPending, startTransition] = useTransition();
   const [city, setCity] = useState("Kathmandu");
-  const [search, setSearch] = useState("");
-  const [country, setCountry] = useState("");
-  const [weather, setWeather] = useState("");
+  const [searchResult, setSearchResult] = useState("");
 
   const onInputChange = (e) => {
-    setCity(e.target.value);
+    startTransition(() => {
+      setCity(e.target.value);
+    });
   };
 
   useEffect(() => {
@@ -19,28 +20,18 @@ function Home() {
       const response = await fetch(url);
       const result = await response.json();
       console.log(result);
-      setSearch(result.main);
-      setCountry(result.sys);
-      setWeather(result.weather);
+      setSearchResult(result);
     };
-    // const fetchApi2 = async () => {
-    //     let url2 = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=909f316fd27d1e1d18b99d8dbea246c6`
-    //         const response2 = await fetch(url2);
-    //         const result2 = await response2.json();
-    //         console.log(result2);
-    // }
     fetchApi();
-    // fetchApi2();
   }, [city]);
 
   return (
     <Container>
       <Main
         onChange={onInputChange}
-        search={search}
+        searchResult={searchResult}
         city={city}
-        country={country}
-        weather={weather}
+        loading={isPending}
       />
       <MoreInfo />
     </Container>
